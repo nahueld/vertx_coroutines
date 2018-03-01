@@ -35,9 +35,7 @@ class AbstractVerticleServer : AbstractVerticle() {
         router.get("/doggo/:breed").handler { routingContext ->
             val breed = routingContext.request().getParam("breed")
 
-            val options = HttpClientOptions()
-            options.isSsl = true
-            options.isTrustAll = true
+            val options = HttpClientOptions(HttpClientOptions().setSsl(true).setTrustAll(true))
 
             val client = vertx.createHttpClient(options)
 
