@@ -8,7 +8,7 @@ complications at testing level, async frameworks relay on events/callbacks inter
 horizontally and in most cases depending on objects that are only available due to closures.
 
 ```
- var myVal = 1;
+ var myVar = 1;
  someAction({
     myVar++
     someOtherAction({
