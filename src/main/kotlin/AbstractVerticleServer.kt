@@ -11,22 +11,6 @@ import io.vertx.ext.web.handler.StaticHandler
 
 class AbstractVerticleServer : AbstractVerticle() {
 
-    //TODO:
-    // - add handler in a different function and improve in general
-    // - write some tests
-    // - add documentation on the project and what we learnt
-    // - document questions from showcase
-    // - write a blog post ? under the hood
-    /**
-     * what is the event loop, this guy is the one who controls the execution / updates of handlers
-     * why do we need to use in launch
-     * different types of coroutine builders
-     * how do they make the code cleaner
-     * awaitEvent
-     * awaitResult
-     *
-     */
-
     override fun start() {
         val router = Router.router(vertx)
 
