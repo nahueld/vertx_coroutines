@@ -3,9 +3,11 @@ import io.vertx.core.AbstractVerticle
 import io.vertx.core.Vertx
 import io.vertx.core.http.HttpClientOptions
 import io.vertx.core.http.HttpMethod
+import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.ext.web.handler.CorsHandler
+import io.vertx.ext.web.handler.StaticHandler
 
 class AbstractVerticleServer : AbstractVerticle() {
 
@@ -32,6 +34,8 @@ class AbstractVerticleServer : AbstractVerticle() {
 
         router.route().handler(CorsHandler.create("*").allowedMethod(HttpMethod.GET))
 
+        router.route().handler(StaticHandler.create())
+
         router.get("/doggo/:breed").handler { routingContext ->
             val breed = routingContext.request().getParam("breed")
 
@@ -43,10 +47,11 @@ class AbstractVerticleServer : AbstractVerticle() {
                 when(response.statusCode()) {
                     200 -> {
                         response.bodyHandler { body ->
+                            val filteredImages = body.toJsonObject().getJsonArray("message").list.subList(0,5)
                             routingContext
                                     .response()
                                     .setStatusCode(response.statusCode())
-                                    .end(body)
+                                    .end(JsonObject().put("message", filteredImages).put("status","success").toString())
                         }
                     }
                     else -> {
@@ -59,7 +64,7 @@ class AbstractVerticleServer : AbstractVerticle() {
             }
         }
 
-        vertx.createHttpServer().requestHandler(router::accept).listen(9000)
+        vertx.createHttpServer().requestHandler({ router.accept(it) }).listen(9000)
     }
 }
 

@@ -38,12 +38,14 @@
       event.preventDefault();
       $.get(`http://localhost:9000/doggo/${this.state.breed}`, data => {
         const response = JSON.parse(data);
-        if(response.status === "success") this.setState({ images : JSON.parse(data).message });
+        if(response.status === "success") {
+          this.setState({ images : response.message })
+        }
       });
     }
 
     updateBreed(event) {
-      this.setState({breed: event.target.value})
+      this.setState({breed: event.target.value, images: []})
     }
 
     render() {
