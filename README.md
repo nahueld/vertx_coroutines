@@ -1,11 +1,29 @@
 # Introduction
 
-The objectives of this project is showcase a simple webapp using Kotlin, Vertx and its wrapper for coroutines.
+The objectives of this project is showcase a simple webapp using Kotlin, Vertx and its wrapper for coroutines and compare it to
+the default way of using Vertx (i.e: callbacks), this way we can analyze the pros of writing async code in a sync fashion.
+
+Although async frameworks like Vertx offer a better performance without having to deal with kernel threads they may exhibit some
+complications at testing level, async frameworks relay on events/callbacks interactions causing your code to grow
+horizontally and in most cases depending on objects that are only available due to closures.
+
+```
+ var myVal = 1;
+ someAction({
+    myVar++
+    someOtherAction({
+        myVar++
+        yetAnotherAction({...
+...
+```
+
+Kotlin offers async support natively by a feature called Coroutines, Coroutines simplify the writing of async code and Vertx provides
+a wrapper to use them.
 
 # Getting Started
 
-Under `/src/main/kotlin` we can find 2 classes that are effectively 2 different implementations of a Vertx server.
-* AbstractVerticleServer implements the default callback like structure of Vertx.
+Under `/src/main/kotlin` we can find 2 classes that are effectively 2 different implementations of the same webapp.
+* AbstractVerticleServer implements the default callback-like structure of Vertx.
 * CoroutineVerticleServer implements some of the coroutine features from Vertx.
 
 To start AbstractVerticleServer: `./gradlew run`
