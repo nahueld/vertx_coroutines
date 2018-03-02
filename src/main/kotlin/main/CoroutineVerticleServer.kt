@@ -1,3 +1,4 @@
+package main
 
 import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
@@ -33,7 +34,13 @@ class CoroutineVerticleServer : CoroutineVerticle() {
 
         router.get("/doggo/:breed").handler({ ctx -> launch(ctx.vertx().dispatcher()) { getBreedRouteHandler(ctx) } })
 
-        vertx.createHttpServer().requestHandler(router::accept).listen(9000)
+        vertx.createHttpServer().requestHandler(router::accept).listen(9000) { result ->
+            if(result.succeeded()) {
+                println("${this.javaClass.name} successfully started: http://localhost:9000")
+            }else{
+                println("${this.javaClass.name} init failed due to: ${result.result()}")
+            }
+        }
     }
 }
 
@@ -67,6 +74,6 @@ suspend fun getBody(response : HttpClientResponse) : Buffer = awaitEvent { h ->
     response.bodyHandler(h)
 }
 
-fun main(args: Array<String>) {
+fun main(args : Array<String>) {
     Vertx.vertx().deployVerticle(CoroutineVerticleServer())
 }

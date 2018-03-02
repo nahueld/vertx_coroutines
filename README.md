@@ -2,9 +2,19 @@
 
 The objectives of this project is showcase a simple webapp using Kotlin, Vertx and its wrapper for coroutines.
 
-You can also find a brief explanation of the concepts used to develop the project, for more information around:
+Reading material:
 * [Coroutines](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md#coroutines-overview)
 * [Vertx](http://vertx.io/docs/vertx-core/kotlin/)
+
+# Getting Started
+
+Under `/src/main/kotlin` we can find 2 classes that are effectively 2 different implementations of a Vertx server.
+* AbstractVerticleServer implements the default callback like structure of Vertx.
+* CoroutineVerticleServer implements some of the coroutine features from Vertx.
+
+To start AbstractVerticleServer: `./gradlew run`
+
+To start CoroutineVerticleServer: `./gradlew run -Pcoroutine`
 
 ## Coroutines
 

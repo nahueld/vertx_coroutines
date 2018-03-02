@@ -1,3 +1,4 @@
+package main
 
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Vertx
@@ -48,7 +49,13 @@ class AbstractVerticleServer : AbstractVerticle() {
             }
         }
 
-        vertx.createHttpServer().requestHandler({ router.accept(it) }).listen(9000)
+        vertx.createHttpServer().requestHandler(router::accept).listen(9000) { result ->
+            if(result.succeeded()) {
+                println("${this.javaClass.name} successfully started: http://localhost:9000")
+            }else{
+                println("${this.javaClass.name} init failed due to: ${result.result()}")
+            }
+        }
     }
 }
 
