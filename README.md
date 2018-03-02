@@ -2,10 +2,6 @@
 
 The objectives of this project is showcase a simple webapp using Kotlin, Vertx and its wrapper for coroutines.
 
-Reading material:
-* [Coroutines](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md#coroutines-overview)
-* [Vertx](http://vertx.io/docs/vertx-core/kotlin/)
-
 # Getting Started
 
 Under `/src/main/kotlin` we can find 2 classes that are effectively 2 different implementations of a Vertx server.
@@ -15,6 +11,12 @@ Under `/src/main/kotlin` we can find 2 classes that are effectively 2 different 
 To start AbstractVerticleServer: `./gradlew run`
 
 To start CoroutineVerticleServer: `./gradlew run -Pcoroutine`
+
+# Complementary reading
+
+* [Coroutines](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md#coroutines-overview)
+* [Vertx](http://vertx.io/docs/vertx-core/kotlin/)
+* [Vertx Coroutines](http://vertx.io/docs/vertx-lang-kotlin-coroutines/kotlin/)
 
 ## Coroutines
 
@@ -124,4 +126,3 @@ sync operations without any precaution they will block the `event loops` causing
 
 ### Vertx and its support for coroutines
 Vertx comes with a reduced but powerful set of wrappers that allow the usage of coroutines to write async code in a sync way.
-For more information: [here](http://vertx.io/docs/vertx-lang-kotlin-coroutines/kotlin/)
