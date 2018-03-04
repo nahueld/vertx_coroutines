@@ -26,10 +26,6 @@ class CoroutineVerticleServer : CoroutineVerticle() {
 
         router.route().handler(CorsHandler.create("*").allowedMethod(HttpMethod.GET))
 
-        val number = async { 1 }
-
-        number.isCompletedExceptionally
-
         router.route().handler(StaticHandler.create())
 
         router.get("/doggo/:breed").handler({ ctx -> launch(ctx.vertx().dispatcher()) { getBreedRouteHandler(ctx) } })
