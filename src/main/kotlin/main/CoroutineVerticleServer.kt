@@ -1,11 +1,13 @@
 package main
 
+import io.vertx.core.Future
 import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.http.HttpClient
 import io.vertx.core.http.HttpClientOptions
 import io.vertx.core.http.HttpClientResponse
 import io.vertx.core.http.HttpMethod
+import io.vertx.core.http.HttpServer
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
@@ -30,13 +32,14 @@ class CoroutineVerticleServer : CoroutineVerticle() {
 
         router.get("/doggo/:breed").handler({ ctx -> launch(ctx.vertx().dispatcher()) { getBreedRouteHandler(ctx) } })
 
-        vertx.createHttpServer().requestHandler(router::accept).listen(9000) { result ->
-            if(result.succeeded()) {
-                println("${this.javaClass.name} successfully started: http://localhost:9000")
-            }else{
-                println("${this.javaClass.name} init failed due to: ${result.result()}")
-            }
+        val httpServer = createHttpServer(vertx, router)
+
+        if(httpServer.succeeded()) {
+            println("${this.javaClass.name} successfully started: http://localhost:9000")
+        }else{
+            println("${this.javaClass.name} init failed due to: ${httpServer.result()}")
         }
+
     }
 }
 
@@ -60,6 +63,10 @@ suspend fun createResponseModel(response : HttpClientResponse) : JsonObject {
             .getJsonArray("message")
             .list.subList(0,5)
     return JsonObject().put("message", filteredImages).put("status", "success")
+}
+
+fun createHttpServer(vertx: Vertx, router: Router) = Future.future<HttpServer> { h ->
+    vertx.createHttpServer().requestHandler(router::accept).listen(9000, h)
 }
 
 suspend fun httpGetImages(client : HttpClient, breed : String) : HttpClientResponse = awaitEvent { h ->
